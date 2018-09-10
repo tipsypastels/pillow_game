@@ -1,0 +1,2 @@
+TILE_SIZE = 16
+GAME_NAME = "TEST"
