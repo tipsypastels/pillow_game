@@ -1,8 +1,15 @@
 module InputManager
   module_function
 
-  def down?(name)
-    kb_down?(name) || gp_down?(name)
+  def down?(input)
+    if input.is_a?(Hash)
+      gp = input[:gp]
+      kb = input[:kb]
+
+      kb_down?(kb) || gp_down?(gp)
+    else
+      kb_down?(input) || gp_down?(input)
+    end
   end
 
   def kb_down?(name)
@@ -14,17 +21,24 @@ module InputManager
   end
 
   def button_down?(prefix, name)
-    name = name.to_s.upcase
-    const = Gosu.const_get("#{prefix}_#{name}")
+    const = button(prefix, name)
 
     Gosu.button_down?(const)
-  rescue
+  rescue NameError
     false
   end
 
   def kb(name)
+    button("KB", name)
+  end
+
+  def gp(name)
+    button("GP", name)
+  end
+
+  def button(prefix, name)
     name = name.to_s.upcase
-    Gosu.const_get("KB_#{name}")
+    Gosu.const_get("#{prefix}_#{name}")
   end
 
   def directional_movement(dirs = [:left, :up, :right, :down])

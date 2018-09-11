@@ -1,4 +1,5 @@
 require 'gosu'
 require './game'
+require './fps'
 
-Game.new(48, 48).show
+Game.new.show
